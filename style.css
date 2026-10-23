@@ -64,3 +64,16 @@
   #videoIntro:fullscreen .opening-video-frame video{object-fit:contain!important}
 }
 @media(max-width:380px){#landscapeBtn,#skipVideoBtn{font-size:10px!important;padding:9px 7px!important}}
+
+/* Commandes vidéo discrètes, indépendantes du style global des boutons. */
+@media (max-width:760px){
+ #videoIntro .video-intro-bottom{left:12px!important;right:12px!important;bottom:calc(12px + env(safe-area-inset-bottom,0px))!important;gap:8px!important;align-items:center!important;flex-direction:row!important}
+ #videoIntro #landscapeBtn,#videoIntro #skipVideoBtn{
+  box-sizing:border-box!important;display:inline-flex!important;flex:0 0 auto!important;width:auto!important;min-width:0!important;max-width:calc(50% - 4px)!important;min-height:0!important;height:34px!important;
+  padding:0 11px!important;margin:0!important;gap:6px!important;justify-content:center!important;align-items:center!important;
+  font:500 11px/1 'DM Sans',sans-serif!important;letter-spacing:0!important;text-align:center!important;white-space:nowrap!important;
+  border:1px solid rgba(239,199,124,.36)!important;border-radius:999px!important;background:rgba(15,9,23,.78)!important;color:#fff8ed!important;
+  box-shadow:0 2px 12px rgba(0,0,0,.2)!important;backdrop-filter:blur(6px);transform:none!important
+ }
+ #videoIntro #skipVideoBtn span{font-size:12px!important;line-height:1!important}
+}
