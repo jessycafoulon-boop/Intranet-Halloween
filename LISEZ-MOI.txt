@@ -1,0 +1,7 @@
+VERSION v10 — Vidéo adaptative
+
+1. Mettre les cinq fichiers index.html, style.css, script.js, intro-halloween.mp4 et Sinister - Anno Domini Beats.mp3 à la racine de GitHub Pages.
+2. Sur mobile portrait, la vidéo 16:9 est affichée entièrement avec bandes sombres (aucune partie du texte coupée).
+3. Le bouton « Plein écran paysage » tente le plein écran et la rotation si le navigateur le permet. Sinon tourner manuellement le téléphone.
+4. À la fin ou en passant la vidéo, retour à l’accueil. Le bouton Entrer dans le mystère ouvre Eval&Go et lance la musique.
+5. Tester avec un onglet privé après publication.
