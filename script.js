@@ -31,24 +31,23 @@ async function leaveVideoIntro() {
   try { if (screen.orientation && screen.orientation.unlock) screen.orientation.unlock(); } catch (_) {}
 }
 
-const landscapeBtn = document.getElementById('landscapeBtn');
-landscapeBtn.addEventListener('click', async () => {
+// Tentative automatique : sur mobile, les navigateurs peuvent refuser
+// le plein écran ou le verrouillage paysage sans interaction utilisateur.
+// L'introduction reste alors lisible en portrait, sans être recadrée.
+async function tryAutomaticLandscape() {
+  if (!window.matchMedia('(max-width: 760px) and (orientation: portrait)').matches) return;
   const intro = document.getElementById('videoIntro');
-  if (document.fullscreenElement) {
-    try { await document.exitFullscreen(); } catch (_) {}
-    try { screen.orientation?.unlock?.(); } catch (_) {}
-    return;
-  }
   try {
-    if (!intro.requestFullscreen) throw new Error('Plein écran non disponible');
-    await intro.requestFullscreen();
-    try { await screen.orientation?.lock?.('landscape'); } catch (_) {
-      // Certains navigateurs ne permettent pas la rotation : la vidéo reste entière.
+    if (intro.requestFullscreen && !document.fullscreenElement) {
+      await intro.requestFullscreen();
+    }
+    if (document.fullscreenElement === intro && screen.orientation?.lock) {
+      try { await screen.orientation.lock('landscape'); } catch (_) {}
     }
   } catch (_) {
-    landscapeBtn.textContent = '↻ Tournez le téléphone pour le paysage';
+    // Refus normal sur Chrome mobile : aucune action requise.
   }
-});
+}
 document.addEventListener('fullscreenchange', () => {
   if (!document.fullscreenElement) {
     try { screen.orientation?.unlock?.(); } catch (_) {}
@@ -79,6 +78,7 @@ document.addEventListener('visibilitychange', () => {
   if (!document.hidden && musicStarted && music.paused) music.play().catch(() => {});
 });
 showScreen('videoIntro');
+void tryAutomaticLandscape();
 video.play().catch(() => {
   // Le bouton « Passer l’introduction » reste accessible.
 });

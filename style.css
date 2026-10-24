@@ -77,3 +77,11 @@
  }
  #videoIntro #skipVideoBtn span{font-size:12px!important;line-height:1!important}
 }
+
+/* v12 : suppression de la commande paysage ; seul « Passer » reste visible. */
+#landscapeBtn{display:none!important}
+@media(max-width:760px){
+ #videoIntro .video-intro-bottom{justify-content:flex-end!important}
+ #videoIntro #skipVideoBtn{max-width:none!important}
+ #videoIntro .opening-video-frame video{object-fit:contain!important}
+}
