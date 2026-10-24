@@ -3,42 +3,10 @@
 // Les questions, scores et résultats sont exclusivement gérés par Eval&Go.
 const screens = Array.from(document.querySelectorAll('main.shell > section.screen'));
 const video = document.getElementById('openingVideo');
-// Bruitage synchronisé aux textes de l'introduction (15 secondes).
-// Les navigateurs mobiles peuvent bloquer l'audio sans geste utilisateur.
-const typingAudio = new Audio('./machine-a-ecrire.mp3');
-typingAudio.preload = 'auto';
-typingAudio.volume = 0.48;
-const soundButton = document.getElementById('introSoundBtn');
-let introSoundEnabled = false;
-function syncTypingSound() {
-  if (video.paused || video.ended || switchingFromIntro) return;
-  if (Math.abs(typingAudio.currentTime - video.currentTime) > 0.28) {
-    try { typingAudio.currentTime = video.currentTime; } catch (_) {}
-  }
-  typingAudio.play().then(() => {
-    introSoundEnabled = true;
-    soundButton.hidden = true;
-  }).catch(() => { soundButton.hidden = false; });
-}
-video.addEventListener('play', syncTypingSound);
-video.addEventListener('pause', () => typingAudio.pause());
-video.addEventListener('seeking', () => {
-  try { typingAudio.currentTime = video.currentTime; } catch (_) {}
-});
-video.addEventListener('timeupdate', () => {
-  if (introSoundEnabled && !typingAudio.paused && Math.abs(typingAudio.currentTime-video.currentTime)>0.35) {
-    try { typingAudio.currentTime=video.currentTime; } catch (_) {}
-  }
-});
-soundButton.addEventListener('click', () => {
-  introSoundEnabled = true;
-  syncTypingSound();
-});
-
 const music = new Audio('./Sinister - Anno Domini Beats.mp3');
 music.loop = true;
 music.volume = 0.5;
-music.preload = 'none';
+music.preload = 'auto';
 let musicStarted = false;
 
 function showScreen(id) {
@@ -57,8 +25,6 @@ async function leaveVideoIntro() {
   if (switchingFromIntro) return;
   switchingFromIntro = true;
   video.pause();
-  typingAudio.pause();
-  soundButton.hidden = true;
   // Afficher immédiatement l'accueil, même si le navigateur refuse de sortir du plein écran.
   showScreen('intro');
   try { if (document.fullscreenElement) await document.exitFullscreen(); } catch (_) {}
@@ -89,11 +55,19 @@ document.addEventListener('fullscreenchange', () => {
 });
 
 function startMusic() {
-  musicStarted = true;
-  music.play().catch(() => {
-    // Certains navigateurs bloquent l'audio ; un nouveau clic peut le débloquer.
+  if (!music.paused) return;
+  music.play().then(() => {
+    musicStarted = true;
+  }).catch(() => {
+    // Lecture avec son souvent interdite avant une interaction sur mobile.
   });
 }
+
+// Essayer dès l'ouverture, puis débloquer au premier geste utilisateur
+// sans arrêter la vidéo ni changer d'écran.
+document.addEventListener('pointerdown', startMusic, { passive: true });
+document.addEventListener('keydown', startMusic);
+
 
 document.getElementById('skipVideoBtn').addEventListener('click', leaveVideoIntro);
 video.addEventListener('ended', leaveVideoIntro);
@@ -106,13 +80,13 @@ document.getElementById('backToResultBtn').addEventListener('click', () => showS
 document.querySelector('.brand').addEventListener('click', event => {
   event.preventDefault();
   if (!video.paused) video.pause();
-  typingAudio.pause();
   showScreen('intro');
 });
 document.addEventListener('visibilitychange', () => {
-  if (!document.hidden && musicStarted && music.paused) music.play().catch(() => {});
+  if (!document.hidden && musicStarted && music.paused) startMusic();
 });
 showScreen('videoIntro');
+startMusic();
 void tryAutomaticLandscape();
 video.play().catch(() => {
   // Le bouton « Passer l’introduction » reste accessible.
