@@ -89,3 +89,28 @@
 /* Activation audio de secours, uniquement si le navigateur bloque l'autoplay sonore. */
 .intro-sound-btn{position:fixed;left:50%;bottom:76px;transform:translateX(-50%);z-index:9999;border:1px solid rgba(239,199,124,.55);border-radius:999px;background:rgba(23,16,34,.88);color:#fff8ed;font:500 12px 'DM Sans',sans-serif;padding:10px 16px;white-space:nowrap;cursor:pointer}
 .intro-sound-btn[hidden]{display:none!important}
+
+/* V14 — Correctif ciblé : taille du questionnaire Eval&Go sur mobile.
+   L'iframe étant externe, on réduit son rendu visuel sans prétendre modifier
+   les styles internes du fournisseur. La hauteur est compensée pour permettre
+   le défilement dans le questionnaire. */
+@media (max-width:760px) {
+  body[data-active-screen="survey"] { overflow:hidden; }
+  #survey .survey-frame {
+    position:relative!important; width:100%!important;
+    height:100dvh!important; overflow:hidden!important;
+    border:0!important; margin:0!important;
+  }
+  #survey .survey-frame iframe {
+    position:absolute!important; top:0!important; left:0!important;
+    display:block!important; width:200%!important; height:200%!important;
+    max-width:none!important; min-height:0!important; border:0!important;
+    transform:scale(.5)!important; transform-origin:top left!important;
+  }
+}
+@media (max-width:390px) {
+  #survey .survey-frame iframe {
+    width:217.3913%!important; height:217.3913%!important;
+    transform:scale(.46)!important;
+  }
+}
