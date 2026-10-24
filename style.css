@@ -110,3 +110,66 @@
     transform:scale(.46)!important;
   }
 }
+
+/* Correctif PC : questionnaire seul sur toute la fenêtre, sans cadre ni marges.
+   Le mobile conserve strictement ses règles existantes. */
+@media (min-width:761px) {
+ body[data-active-screen="survey"] { overflow:hidden; }
+ body[data-active-screen="survey"] .topbar,
+ body[data-active-screen="survey"] .footer { display:none!important; }
+ body[data-active-screen="survey"] .shell {
+   display:block!important; width:100%!important; max-width:none!important;
+   height:100vh!important; height:100dvh!important; min-height:0!important;
+   margin:0!important; padding:0!important;
+ }
+ #survey.is-active {
+   display:block!important; width:100%!important; height:100%!important;
+   animation:none!important; overflow:hidden!important;
+ }
+ #survey .survey-content { width:100%!important; max-width:none!important; height:100%!important; margin:0!important; }
+ #survey .survey-content > .eyebrow,
+ #survey .survey-content > h1,
+ #survey .survey-content > .lead,
+ #survey .survey-fallback,
+ #survey .survey-back { display:none!important; }
+ #survey .survey-frame { width:100%!important; height:100%!important; border:0!important; margin:0!important; overflow:hidden!important; }
+ #survey .survey-frame iframe { width:100%!important; height:100%!important; min-height:0!important; border:0!important; transform:none!important; }
+}
+
+/* Correctif ciblé PC : l'introduction vidéo occupe réellement la fenêtre.
+   Aucun changement aux règles mobiles ou à l'écran d'accueil. */
+@media (min-width:761px) {
+  body[data-active-screen="videoIntro"] {overflow:hidden!important;}
+  body[data-active-screen="videoIntro"] .topbar,
+  body[data-active-screen="videoIntro"] .footer {display:none!important;}
+  body[data-active-screen="videoIntro"] .shell {
+    width:100%!important;max-width:none!important;height:100vh!important;height:100dvh!important;
+    min-height:0!important;margin:0!important;padding:0!important;display:block!important;
+  }
+  #videoIntro.is-active {
+    display:block!important;position:fixed!important;inset:0!important;
+    width:100vw!important;height:100vh!important;height:100dvh!important;
+    max-width:none!important;margin:0!important;animation:none!important;
+    background:#09060e!important;z-index:50!important;
+  }
+  #videoIntro .video-intro-content {position:relative!important;width:100%!important;height:100%!important;}
+  #videoIntro .video-intro-content>.eyebrow,
+  #videoIntro .video-intro-label {display:none!important;}
+  #videoIntro .opening-video-frame {
+    width:100%!important;height:100%!important;aspect-ratio:auto!important;
+    padding:0!important;margin:0!important;border:0!important;box-shadow:none!important;
+  }
+  #videoIntro .opening-video-frame video {
+    width:100%!important;height:100%!important;object-fit:contain!important;
+  }
+  #videoIntro .video-intro-bottom {
+    position:absolute!important;right:20px!important;bottom:20px!important;left:auto!important;
+    width:auto!important;margin:0!important;display:flex!important;z-index:2!important;
+  }
+  #videoIntro #skipVideoBtn {
+    display:inline-flex!important;width:auto!important;min-width:0!important;height:36px!important;
+    padding:7px 13px!important;font-size:12px!important;line-height:1!important;
+    background:rgba(20,12,30,.82)!important;border:1px solid rgba(255,255,255,.3)!important;
+    color:#fff!important;border-radius:20px!important;
+  }
+}
