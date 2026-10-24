@@ -141,3 +141,34 @@
  #intro .intro-copy .lead {line-height:1.4!important;margin-bottom:14px!important}
  #intro .intro-meta {margin-bottom:14px!important}
 }
+
+/* PC Eval&Go : réduire le document tiers sans rogner ses bords.
+   La surface CSS de l'iframe est agrandie à l'inverse du facteur de réduction. */
+@media (min-width:761px) {
+  html, body { overflow:hidden!important; }
+  body[data-active-screen="survey"] #survey,
+  body[data-active-screen="survey"] #survey .survey-content,
+  body[data-active-screen="survey"] #survey .survey-frame {
+    width:100vw!important;height:100dvh!important;
+    max-width:none!important;max-height:none!important;
+    min-width:0!important;min-height:0!important;
+    margin:0!important;padding:0!important;border:0!important;
+    overflow:hidden!important;
+  }
+  body[data-active-screen="survey"] #survey .survey-frame iframe {
+    position:absolute!important;top:0!important;left:0!important;
+    right:auto!important;bottom:auto!important;inset:auto!important;
+    display:block!important;
+    width:125%!important;height:125%!important;
+    min-width:0!important;min-height:0!important;max-width:none!important;
+    max-height:none!important;margin:0!important;padding:0!important;
+    border:0!important;transform:scale(.8)!important;
+    transform-origin:top left!important;
+  }
+}
+@media (min-width:761px) and (max-width:1100px) {
+  body[data-active-screen="survey"] #survey .survey-frame iframe {
+    width:142.857143%!important;height:142.857143%!important;
+    transform:scale(.7)!important;
+  }
+}
