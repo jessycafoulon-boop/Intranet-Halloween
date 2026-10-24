@@ -91,3 +91,14 @@ void tryAutomaticLandscape();
 video.play().catch(() => {
   // Le bouton « Passer l’introduction » reste accessible.
 });
+
+// Remplacer la page du jeu par l'intranet dans le même onglet.
+const intranetReturn = document.querySelector('.intranet-return-btn');
+if (intranetReturn) {
+  intranetReturn.addEventListener('click', (event) => {
+    event.preventDefault();
+    video.pause();
+    music.pause();
+    window.location.replace(intranetReturn.href);
+  });
+}
